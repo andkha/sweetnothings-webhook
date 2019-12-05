@@ -27,9 +27,11 @@ app.get("/:id", (req, res) =>
 app.post("/:type", (req, res) => {
   const { type } = req.params;
   console.log(type, req.body);
-  // mg.messages().send(data(), function(error, body) {
-  //   console.log(body);
-  // });
+  if (req.body.note_attributes) {
+    // mg.messages().send(data(), function(error, body) {
+    //   console.log(body);
+    // });
+  }
   return res.send({ message: "Thanks", ...req.params });
 });
 
