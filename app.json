@@ -1,0 +1,7 @@
+{
+  "name": "Sweet Nothings",
+  "description": "SweetNothings shopify webhook",
+  "repository": "https://github.com/andkha/sweetnothings-webhook.git",
+  "keywords": ["node", "express", "heroku"],
+  "image": "heroku/nodejs"
+}
