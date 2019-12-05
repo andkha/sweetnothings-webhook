@@ -9,10 +9,10 @@ const mg = mailgun({
   domain: DOMAIN
 });
 
-const data = (variables = { gift_note: "Happy Birthday!" }) => ({
+const data = (email, variables = { gift_note: "Happy Birthday!" }) => ({
   from:
     "Mailgun Sandbox <postmaster@sandboxd0aa85e296194df6bbe7118617c03032.mailgun.org>",
-  to: "andkha625@gmail.com",
+  to: email,
   subject: "A sweet gift is on the way!",
   template: "gift-wrapping",
   "h:X-Mailgun-Variables": JSON.stringify(variables)
@@ -30,13 +30,19 @@ app.get("/:id", (req, res) =>
 
 app.post("/:type", (req, res) => {
   const { type } = req.params;
-  console.log(type, req.body);
-  if (req.body.note_attributes) {
-    // mg.messages().send(data(), function(error, body) {
-    //   console.log(body);
-    // });
+  if (
+    type === "order-payment" &&
+    req.body &&
+    req.body.note_attributes &&
+    req.body.note_attributes.gift_email
+  ) {
+    const { gift_email, gift_note } = req.body.note_attributes;
+
+    mg.messages().send(data(gift_email, { gift_note }), function(error, body) {
+      console.log(body);
+    });
   }
-  return res.send({ message: "Thanks", ...req.params });
+  return res.send({ message: "Thanks" });
 });
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
