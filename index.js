@@ -1,4 +1,5 @@
 require("dotenv").config();
+const port = process.env.PORT || 5000
 
 const mailgun = require("mailgun-js");
 const DOMAIN = "sandboxd0aa85e296194df6bbe7118617c03032.mailgun.org";
@@ -18,7 +19,6 @@ const data = (variables = { gift_note: "Happy Birthday!" }) => ({
 
 const express = require("express");
 const app = express();
-const port = 3000;
 
 app.get("/:id", (req, res) =>
   res.send({ message: "Hello World!", ...req.params })
