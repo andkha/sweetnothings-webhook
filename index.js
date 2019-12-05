@@ -44,6 +44,7 @@ app.post("/:type", (req, res) => {
         config.gift_note = value;
       }
     });
+    console.log(config);
 
     if (config.email) {
       mg.messages().send(data(config), function(error, body) {
