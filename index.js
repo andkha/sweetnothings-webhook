@@ -44,7 +44,9 @@ app.post("/:type", (req, res) => {
         config.gift_note = value;
       }
     });
-    console.log(config);
+
+    const forLog = ({ id, name, email, total_price } = req.body);
+    console.log(forLog, config);
 
     if (config.email) {
       mg.messages().send(data(config), function(error, body) {
