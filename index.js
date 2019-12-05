@@ -35,7 +35,7 @@ app.post("/:type", (req, res) => {
     const config = {};
     req.body.note_attributes.forEach(({ name, value }) => {
       if (name === "date") {
-        config.date = value;
+        config.date = (value || "").replace("Shipping ", "");
       }
       if (name === "gift_email") {
         config.email = value;
