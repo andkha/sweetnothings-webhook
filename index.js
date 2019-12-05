@@ -30,6 +30,7 @@ app.get("/:id", (req, res) =>
 
 app.post("/:type", (req, res) => {
   const { type } = req.params;
+  console.log(type, req.body);
   if (type === "order-payment" && req.body && req.body.note_attributes) {
     const config = {};
     req.body.note_attributes.forEach(({ name, value }) => {
