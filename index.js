@@ -45,7 +45,7 @@ app.post("/:type", (req, res) => {
       }
     });
 
-    if (config.email && config.note) {
+    if (config.email) {
       mg.messages().send(data(config), function(error, body) {
         console.log(body);
       });
