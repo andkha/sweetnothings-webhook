@@ -9,13 +9,13 @@ const mg = mailgun({
   domain: DOMAIN
 });
 
-const data = ({ email, note }) => ({
+const data = ({ email, ...variables }) => ({
   from:
     "Mailgun Sandbox <postmaster@sandboxd0aa85e296194df6bbe7118617c03032.mailgun.org>",
   to: email,
   subject: "A sweet gift is on the way!",
   template: "gift-wrapping",
-  "h:X-Mailgun-Variables": JSON.stringify({ gift_note: note })
+  "h:X-Mailgun-Variables": JSON.stringify(variables)
 });
 
 const express = require("express");
@@ -30,15 +30,18 @@ app.get("/:id", (req, res) =>
 
 app.post("/:type", (req, res) => {
   const { type } = req.params;
-  console.log(type, req.body);
+  console.log(type, req.body && req.body.note_attributes);
   if (type === "order-payment" && req.body && req.body.note_attributes) {
     const config = {};
     req.body.note_attributes.forEach(({ name, value }) => {
+      if (name === "date") {
+        config.date = value;
+      }
       if (name === "gift_email") {
         config.email = value;
       }
       if (name === "gift_note") {
-        config.note = value;
+        config.gift_note = value;
       }
     });
 
