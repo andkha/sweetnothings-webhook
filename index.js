@@ -22,6 +22,8 @@ const sgMail = require("@sendgrid/mail");
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 const data = (
   { email, ...variables } = {
+    gift_from: "From",
+    gift_to: "To",
     gift_note: "Gift message from Sweet Nothings",
     date: `${new Date().getMonth() +
       1}/${new Date().getDate()}/${new Date().getFullYear()}`
@@ -58,6 +60,12 @@ app.post("/:type", (req, res) => {
       }
       if (name === "gift_note") {
         config.gift_note = value;
+      }
+      if (name === "gift_from") {
+        config.gift_from = value;
+      }
+      if (name === "gift_to") {
+        config.gift_to = value;
       }
     });
 
