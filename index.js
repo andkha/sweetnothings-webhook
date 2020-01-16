@@ -1,5 +1,6 @@
 require("dotenv").config();
 const port = process.env.PORT || 3000;
+const cors = require("cors");
 const bodyParser = require("body-parser");
 
 // const mailgun = require("mailgun-js");
@@ -39,6 +40,7 @@ const data = (
 const express = require("express");
 const app = express();
 
+app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
@@ -47,12 +49,14 @@ app.get("/:id", (req, res) =>
 );
 
 app.post("/contact", (req, res) => {
+  const text = `User: ${req.body.name}\n\nMessage: ${req.body.message}`;
+  const html = `User: ${req.body.name}<br><br>Message: ${req.body.message}`;
   const msg = {
     to: "misha@kiwi.studio",
     from: req.body.email,
     subject: req.body.subject,
-    text: req.body.message,
-    html: req.body.message
+    text,
+    html
   };
   sgMail.send(msg);
   res.send({ message: "Thanks" });
