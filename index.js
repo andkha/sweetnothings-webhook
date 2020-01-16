@@ -1,5 +1,5 @@
 require("dotenv").config();
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 3000;
 const bodyParser = require("body-parser");
 
 // const mailgun = require("mailgun-js");
@@ -45,6 +45,18 @@ app.use(bodyParser.json());
 app.get("/:id", (req, res) =>
   res.send({ message: "Hello World!", ...req.params })
 );
+
+app.post("/contact", (req, res) => {
+  const msg = {
+    to: "misha@kiwi.studio",
+    from: req.body.email,
+    subject: req.body.subject,
+    text: req.body.message,
+    html: req.body.message
+  };
+  sgMail.send(msg);
+  res.send({ message: "Thanks" });
+});
 
 app.post("/:type", (req, res) => {
   const { type } = req.params;
